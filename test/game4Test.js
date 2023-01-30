@@ -11,9 +11,12 @@ describe('Game4', function () {
   it('should be a winner', async function () {
     const { game } = await loadFixture(deployContractAndSetVariables);
 
+    const [signer] = await ethers.getSigners();
     // nested mappings are rough :}
+    game.connect(signer).write(signer.address);
 
-    await game.win();
+
+    await game.win(signer.address);
 
     // leave this assertion as-is
     assert(await game.isWon(), 'You did not win the game');
